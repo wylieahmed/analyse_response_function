@@ -1,0 +1,7 @@
+E:\Science\data\response_function\rbc_2µm\rbc_2µm_101008\response_function_series_1001    .01 multiplication
+E:\Science\data\response_function\rbc_2µm_spon_attach\2\response_function_series_1002     .1 multiplication
+E:\Science\data\response_function\rbc_2µm\rbc_2µm_101008\response_function_series_1011    .01 multiplication  one datapoint off
+E:\Science\data\response_function\rbc_2µm\rbc_2µm_101007_lot_of_noise\1\response_function_series_1005   .01 multi			GOOD!!
+E:\Science\data\response_function\rbc_2µm\rbc_2µm_101007_lot_of_noise\1\response_function_series_1008                                  Strong tension
+E:\Science\data\response_function\rbc_2µm\rbc_2µm_101007_lot_of_noise\1\response_function_series_1008   .03  multi		 Strong tension
+E:\Science\data\response_function\rbc_2µm\101126\1\response_function_series_1002     0.15                                                GOOD
