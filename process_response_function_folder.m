@@ -10,7 +10,7 @@ load(([path,filesep,'results.mat']))
 act_trap=find(Traps(:,3)==255);
 
 for j=1:length(files)
-    load(([path,'\',files(j).name]))
+    load(([path,filesep,files(j).name]))
     fo(j)=f;
     alphax(j)=a_x(act_trap);
     alphay(j)=a_y(act_trap);

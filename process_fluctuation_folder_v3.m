@@ -22,7 +22,7 @@ catch
 end
     
 for i=1:length(files)
-    load(([path,'\',files(i).name]))
+    load(([path,filesep,files(i).name]))
    
     fluct(i).path=path;
     fluct(i).file=[files(i).name];
