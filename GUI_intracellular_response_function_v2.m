@@ -439,5 +439,5 @@ function save_all_Callback(hObject, eventdata, handles)
 
 corrected_response=handles.corrected_response;
 folders=handles.folders;
-[s_file,s_path]=uiputfile([handles.dir,filesep,'*.m'],'Where should I store the data');
+[s_file,s_path]=uiputfile([handles.dir,filesep,'*.mat'],'Where should I store the data');
 save([s_path,filesep,s_file],'corrected_response');
