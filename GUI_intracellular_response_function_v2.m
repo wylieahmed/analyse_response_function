@@ -45,7 +45,7 @@ end
 
 
 % --- Executes just before GUI_intracellular_response_function_v2 is made visible.
-function GUI_intracellular_response_function_v2_OpeningFcn(hObject, eventdata, handles, varargin)
+function GUI_intracellular_response_function_v2_OpeningFcn(hObject, eventdata, handles, varargin) %#ok<*INUSL>
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -77,7 +77,7 @@ varargout{1} = handles.output;
 
 
 
-function edit_particle_diameter_Callback(hObject, eventdata, handles)
+function edit_particle_diameter_Callback(hObject, eventdata, handles) %#ok<*DEFNU>
 % hObject    handle to edit_particle_diameter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -88,7 +88,7 @@ handles=display_current_data(handles);
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
-function edit_particle_diameter_CreateFcn(hObject, eventdata, handles)
+function edit_particle_diameter_CreateFcn(hObject, eventdata, handles) %#ok<*INUSD>
 % hObject    handle to edit_particle_diameter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -138,7 +138,7 @@ function load_folder_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
-handles.dir=uigetdir(handles.dir,'Give me the base directory of the response data')
+handles.dir=uigetdir(handles.dir,'Give me the base directory of the response data');
 folders=dir([handles.dir]);
 folders(1:2)=[];
 folders(find([folders.isdir]==0))=[];
@@ -166,19 +166,19 @@ function handles=load_current_folder(handles)
 handles.current_folder=str2num(get(handles.edit_dataset,'String'));
 folders=handles.folders;
 %now I read all the response folders and populate the listbox
-folders_p=dir([handles.dir,filesep,folders(handles.current_folder).name,filesep,'multiple_run_series*'])
+folders_p=dir([handles.dir,filesep,folders(handles.current_folder).name,filesep,'multiple_run_series*']);
 set(handles.listbox_passive,'String',{folders_p.name});
 
 handles.folders_p=folders_p;
 %now I read all the fluctuations folders and populate the listbox
-folders_a=dir([handles.dir,filesep,folders(handles.current_folder).name,filesep,'response_function*'])
+folders_a=dir([handles.dir,filesep,folders(handles.current_folder).name,filesep,'response_function*']);
 set(handles.listbox_active,'String',{folders_a.name});
 
 handles.folders_a=folders_a;
 %Finally I define the first datasets and load these as current data
 set(handles.listbox_passive,'Value',1);
 set(handles.listbox_active,'Value',1);
-handles=load_current_dataset(handles)
+handles=load_current_dataset(handles);
 
 
 function handles=load_current_dataset(handles)
@@ -192,11 +192,11 @@ folders_p=handles.folders_p;
 act_data_a=get(handles.listbox_active,'Value');
 act_data_p=get(handles.listbox_passive,'Value');
 
-load_active=[handles.dir,filesep,folders(handles.current_folder).name,filesep,folders_a(act_data_a).name]
+load_active=[handles.dir,filesep,folders(handles.current_folder).name,filesep,folders_a(act_data_a).name];
 try
-    load_passive=[handles.dir,filesep,folders(handles.current_folder).name,filesep,folders_p(act_data_p).name]
+    load_passive=[handles.dir,filesep,folders(handles.current_folder).name,filesep,folders_p(act_data_p).name];
 end
-[f,alphax,alphay,trap_stiff,slopes,act_trap]=process_response_function_folder(load_active)
+[f,alphax,alphay,trap_stiff,slopes,act_trap]=process_response_function_folder(load_active);
 
 handles.response_f=f;
 handles.response_x=alphax;
@@ -209,13 +209,13 @@ handles.act_trap=act_trap;
 %now I will either load the fluctuations that was saved with the active
 %microrheology, or I will take the fluctuations from the passive
 %microrheology folder
-if length(handles.folders_p)==0
+if isempty(handles.folders_p)
     load([load_active,filesep,'histogram_results.mat']);
     handles.psd_f=fl(1,2:end);
     handles.psd_x=pxl;
     handles.psd_y=pyl;
 else
-    [fluct,fl,psdxy,psdxy_std]=process_fluctuation_folder_v3(load_passive);
+    [fluct,fl,psdxy,psdxy_std]=process_fluctuation_folder_v3(load_passive); %#ok<NASGU,ASGLU>
     handles.psd_f=fl(1,:);
     handles.psd_x=psdxy(1,:);
     handles.psd_y=psdxy(2,:);
@@ -265,7 +265,7 @@ if get(handles.checkbox1,'Value')==1
     folders=handles.folders;
     folders_a=handles.folders_a;
     act_data_a=get(handles.listbox_active,'Value');
-    load_active=[handles.dir,filesep,folders(handles.current_folder).name,filesep,folders_a(act_data_a).name]
+    load_active=[handles.dir,filesep,folders(handles.current_folder).name,filesep,folders_a(act_data_a).name];
 
     load([load_active,filesep,'histogram_results.mat']);
     handles.psd_fa=fl(1,2:end);
@@ -335,10 +335,10 @@ function save_current_Callback(hObject, eventdata, handles)
 save_data=handles.save_data;
 try 
     corrected_response=handles.corrected_response;
-    i=length(corrected_response)
+    i=length(corrected_response);
     corrected_response(i+1)=save_data;
 catch
-    i=0
+    i=0;
     corrected_response=save_data;
 end
 
@@ -382,7 +382,7 @@ function listbox_passive_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns listbox_passive contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from listbox_passive
-handles=load_current_dataset(handles)
+handles=load_current_dataset(handles);
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
@@ -406,7 +406,7 @@ function listbox_active_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns listbox_active contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from listbox_active
-handles=load_current_dataset(handles)
+handles=load_current_dataset(handles);
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
