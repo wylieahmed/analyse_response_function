@@ -252,12 +252,15 @@ eta=1./(3*pi*handles.particle_diameter*2*pi*handles.response_f.*handles.response
 loglog(handles.response_f,eta);
 hold on
 G=1./(6*pi*handles.particle_diameter*handles.response_prefactor .* ((handles.response_x)));
-loglog(handles.response_f,abs(real(G)),'+r');
-loglog(handles.response_f,abs(imag(G)),'or');
+loglog(handles.response_f,abs(real(G)),'+r-');
+loglog(handles.response_f,abs(imag(G)),'or-');
 loglog([100:1000],[100:1000].^.75*.1);
-hold off
+
+legend('viscosity','real(G)','img(G)','x^3/4')
+
 xlabel('f in [Hz]')
 ylabel('G in Pa (o dissipative, + elastic)')
+hold off
 %create dataset to save
 folders=handles.folders;
 
