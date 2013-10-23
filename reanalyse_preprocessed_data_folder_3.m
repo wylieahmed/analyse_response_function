@@ -14,18 +14,18 @@ for i=1:length(files)
         p=response(j).path;
         %[res,f]=process_response_data_from_raw_data(p)
         f_fit=10;
-        [res,f,res_all_x,res_all_y,xy_k_extract,fbl,Pbl,k_fit]=process_response_data_plus_trap_calibration(p,f_fit)
+        [res,f,res_all_x,res_all_y,xy_k_extract,fbl,Pbl,k_fit]=process_response_data_plus_trap_calibration(p,f_fit);
 %         loglog(f,abs(real(res(:,1))));
 %         hold on
 %         loglog(f,imag(res(:,1)),'r');
 %         hold off
-        response(j).k_fit=k_fit
+        response(j).k_fit=k_fit;
         response(j).res_all_x=res_all_x;
         response(j).res_all_y=res_all_y;
         response(j).alphax=res(:,1);
         response(j).alphay=res(:,2);
         response(j).f=f;
-        response(j).xy_k_extract=xy_k_extract
+        response(j).xy_k_extract=xy_k_extract;
         response(j).fbl=fbl;
         response(j).Pbl=Pbl;
         pause(0.1)
@@ -36,9 +36,9 @@ for i=1:length(files)
     for j=1:length(fluctuation)
         %allignment_frequency
         
-        fa=40
+        fa=40;
         if strcmp(path,'E:\Science\data\response_function\pre_analysed_data\starved_new')
-            fa=120
+            fa=120;
         end
         
         p=fluctuation(j).path;
@@ -48,10 +48,10 @@ for i=1:length(files)
             c_corr_i(k)=response(k).Pbl(response(k).act_trap,i_min)*1e-12;
             cf_corr_i(k)=response(k).fbl(response(k).act_trap,i_min);
         end
-        at=response(k).act_trap
+        at=response(k).act_trap;
         c_corr=mean(c_corr_i);
         cf_corr_i=mean(cf_corr_i);
-        ind=0
+        ind=0;
         for k=1:length(d)
             ind=ind+1;
             [m_val,i_min]=min(abs(fa-d(k).f));

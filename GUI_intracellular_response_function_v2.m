@@ -22,7 +22,7 @@ function varargout = GUI_intracellular_response_function_v2(varargin)
 
 % Edit the above text to modify the axes_response to help GUI_intracellular_response_function_v2
 
-% Last Modified by GUIDE v2.5 30-Sep-2013 00:49:46
+% Last Modified by GUIDE v2.5 23-Oct-2013 10:50:20
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -234,12 +234,25 @@ function handles=display_current_data(handles)
 
 handles.particle_diameter=str2num(get(handles.edit_particle_diameter,'String'))*1e-6;
 handles.response_prefactor=str2num(get(handles.edit_response_prefactor,'String'));
-response_x=handles.response_x;
+
+if not(isfield(handles , 'response_function_dirrection'))
+    handles.response_function_dirrection = 'Y';
+    sprintf('dir not set, set to Y')
+    display(handles)
+end
+    
+if handles.response_function_dirrection == 'X'
+    response_xory =handles.response_x;
+elseif handles.response_function_dirrection == 'Y'
+    response_xory =handles.response_y;
+else
+    throw('unknown direction')
+end
 psd_x=handles.psd_x(handles.act_trap,:);
 
 axes(handles.axes_response)
 
-loglog(handles.response_f,abs(handles.response_prefactor * imag(response_x)));
+loglog(handles.response_f,abs(handles.response_prefactor * imag(response_xory)));
 hold on
 loglog(handles.psd_f,abs(pi.*handles.psd_f./4e-21.*psd_x));
 hold off
@@ -248,10 +261,10 @@ xlabel('f in [Hz]')
 
 axes(handles.axes_shear_modulus);
 
-eta=1./(3*pi*handles.particle_diameter*2*pi*handles.response_f.*handles.response_prefactor .* abs(imag(handles.response_x)));
+eta=1./(3*pi*handles.particle_diameter*2*pi*handles.response_f.*handles.response_prefactor .* abs(imag(response_xory)));
 loglog(handles.response_f,eta);
 hold on
-G=1./(6*pi*handles.particle_diameter*handles.response_prefactor .* ((handles.response_x)));
+G=1./(6*pi*handles.particle_diameter*handles.response_prefactor .* ((response_xory)));
 loglog(handles.response_f,abs(real(G)),'+r-');
 loglog(handles.response_f,abs(imag(G)),'or-');
 loglog([100:1000],[100:1000].^.75*.1);
@@ -285,7 +298,7 @@ end
 save_data.particle_diameter=handles.particle_diameter;
 save_data.response_prefactor=handles.response_prefactor;
 save_data.response_f=handles.response_f;
-save_data.corr_active_response=abs(handles.response_prefactor * imag(response_x));
+save_data.corr_active_response=abs(handles.response_prefactor * imag(response_xory));
 save_data.psd_f=handles.psd_f;
 save_data.passive_response=abs(pi.*handles.psd_f./4e-21.*psd_x);
 save_data.G=G;
@@ -444,3 +457,23 @@ corrected_response=handles.corrected_response;
 folders=handles.folders;
 [s_file,s_path]=uiputfile([handles.dir,filesep,'*.mat'],'Where should I store the data');
 save([s_path,filesep,s_file],'corrected_response');
+
+
+% --- Executes when selected object is changed in XorY.
+function XorY_SelectionChangeFcn(hObject, eventdata, handles)
+% hObject    handle to the selected object in XorY 
+% eventdata  structure with the following fields (see UIBUTTONGROUP)
+%	EventName: string 'SelectionChanged' (read only)
+%	OldValue: handle of the previously selected object or empty if none was selected
+%	NewValue: handle of the currently selected object
+% handles    structure with handles and user data (see GUIDATA)
+    switch get(eventdata.NewValue,'Tag') % Get Tag of selected object.
+        case 'radiobuttonX'
+        handles.response_function_dirrection = 'X';
+        case 'radiobuttonY'
+        handles.response_function_dirrection = 'Y';
+        % Code for when radiobutton2 is selected.
+        otherwise
+        throw('got unknown radio button !') 
+    end
+    guidata(hObject, handles);
