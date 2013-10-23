@@ -241,18 +241,20 @@ end
     
 if handles.response_function_dirrection == 'X'
     response_xory =handles.response_x;
+    psd_xory=handles.psd_x(handles.act_trap,:);
 elseif handles.response_function_dirrection == 'Y'
     response_xory =handles.response_y;
+    psd_xory=handles.psd_y(handles.act_trap,:);
 else
     throw('unknown direction')
 end
-psd_x=handles.psd_x(handles.act_trap,:);
+
 
 axes(handles.axes_response)
 
 loglog(handles.response_f,abs(handles.response_prefactor * imag(response_xory)));
 hold on
-loglog(handles.psd_f,abs(pi.*handles.psd_f./4e-21.*psd_x));
+loglog(handles.psd_f,abs(pi.*handles.psd_f./4e-21.*psd_xory));
 hold off
 ylabel('Response in [m/N]')
 xlabel('f in [Hz]')
@@ -298,7 +300,7 @@ save_data.response_prefactor=handles.response_prefactor;
 save_data.response_f=handles.response_f;
 save_data.corr_active_response=abs(handles.response_prefactor * imag(response_xory));
 save_data.psd_f=handles.psd_f;
-save_data.passive_response=abs(pi.*handles.psd_f./4e-21.*psd_x);
+save_data.passive_response=abs(pi.*handles.psd_f./4e-21.*psd_xory);
 save_data.G=G;
 save_data.eta=eta;
 save_data.base_path=handles.dir;
