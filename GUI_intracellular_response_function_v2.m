@@ -283,13 +283,25 @@ if get(handles.checkbox1,'Value')==1
     act_data_a=get(handles.listbox_active,'Value');
     load_active=[handles.dir,filesep,folders(handles.current_folder).name,filesep,folders_a(act_data_a).name];
 
-    load([load_active,filesep,'histogram_results.mat']);
-    handles.psd_fa=fl(1,2:end);
-    handles.psd_xa=pxl;
-    handles.psd_ya=pyl;
+    something = load([load_active,filesep,'histogram_results.mat']);
+    handles.psd_fa = something.fl(1,2:end);
+    handles.psd_xa = something.pxl;
+    handles.psd_ya = something.pyl;
+    
+    psd_lxory = 0;
+    
+    if handles.response_function_dirrection == 'X'
+        psd_lxory = something.pxl;
+    elseif handles.response_function_dirrection == 'Y'
+        psd_lxory = something.pyl;
+    else
+        throw('unknown direction')
+    end
+    
+    
     axes(handles.axes_response)
     hold on
-    loglog(handles.psd_fa,abs(pi.*handles.psd_fa./4e-21.*handles.psd_xa),'r');
+    loglog(handles.psd_fa,abs(pi.*handles.psd_fa./4e-21.*psd_lxory),'r');
     hold off
     ylabel('Response in [m/N]')
     xlabel('f in [Hz]')
