@@ -236,9 +236,7 @@ handles.particle_diameter=str2num(get(handles.edit_particle_diameter,'String'))*
 handles.response_prefactor=str2num(get(handles.edit_response_prefactor,'String'));
 
 if not(isfield(handles , 'response_function_dirrection'))
-    handles.response_function_dirrection = 'Y';
-    sprintf('dir not set, set to Y')
-    display(handles)
+    handles.response_function_dirrection = 'X';
 end
     
 if handles.response_function_dirrection == 'X'

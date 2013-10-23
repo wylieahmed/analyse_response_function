@@ -10,12 +10,12 @@ function [fluct,f,psdxy,psdxy_std]=process_fluctuation_folder_v3(path)
 %this is for testing:
 %path='E:\Science\data\response_function\3.28um_beads_rbc\3.28mu_beads_110725\3\multiple_run_series_1003'
 
-files=dir([path,filesep,'fluctuation_data*.mat'])
-scan=dir([path,filesep,'scan*.mat'])
+files=dir([path,filesep,'fluctuation_data*.mat']);
+scan=dir([path,filesep,'scan*.mat']);
 load(([path,filesep,files(1).name]))
 try 
     act_trap=find(Traps(:,3)==255);
-catch 
+catch err
     load(([path,filesep,'Parameters.mat']))
     Traps=Parameter.Traps;
     act_trap=find(Traps(:,3)==255);
@@ -24,7 +24,7 @@ end
 for i=1:length(files)
     load(([path,filesep,files(i).name]))
    
-    fluct(i).path=path;
+    fluct(i).path=path; %#ok<*AGROW>
     fluct(i).file=[files(i).name];
     fluct(i).f=fb(act_trap,2:end);
     fluct(i).px=pxb(act_trap,:);
@@ -49,7 +49,7 @@ for i=1:length(files)
 %     fluct(i).x_scan=x;
 %     fluct(i).y_scan=y;
     
-    fluct(i).Traps=Traps
+    fluct(i).Traps=Traps;
 end
 f=mean(f,1);
 

@@ -4,7 +4,7 @@ function [response]=process_response_function_folder_v2(path)
 %set.
 %We will load the data, and get the response function for each of the
 %frequencies. 
-files=dir([path,'\*deformation_response.mat'])
+files=dir([path,'\*deformation_response.mat']);
 load(([path,'\',files(1).name]))
 load(([path,'\results.mat']))
 act_trap=find(Traps(:,3)==255);
